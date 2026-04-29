@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PANASIA CMS — 앱 설치 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#f0f0ef;color:#1a1a18;min-height:100vh}
+.hero{background:linear-gradient(135deg,#1e40af 0%,#1d4ed8 100%);color:#fff;padding:40px 20px 32px;text-align:center}
+.app-icon{width:88px;height:88px;background:rgba(255,255,255,.15);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:44px;margin:0 auto 14px;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.hero h1{font-size:22px;font-weight:800;margin-bottom:6px}
+.hero p{font-size:13px;opacity:.85}
+.container{max-width:520px;margin:0 auto;padding:20px 16px}
+.step-card{background:#fff;border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.step-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f7f7f6;border-bottom:1px solid #e2e2e0}
+.step-num{width:32px;height:32px;border-radius:50%;background:#1d4ed8;color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-size:14px;font-weight:800}
+.step-sub{font-size:11px;color:#6b6b63;margin-top:2px}
+.step-body{padding:14px 16px}
+.item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #f0f0ef;align-items:flex-start}
+.item:last-child{border-bottom:none}
+.item-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.item-text{font-size:13px;line-height:1.6}
+.item-text b{font-weight:700}
+.platform-tabs{display:flex;gap:8px;margin-bottom:14px}
+.ptab{flex:1;padding:10px;background:#fff;border:2px solid #e2e2e0;border-radius:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s}
+.ptab.active{background:#eff6ff;border-color:#1d4ed8;color:#1d4ed8}
+.ios-steps,.android-steps{display:none}
+.ios-steps.show,.android-steps.show{display:block}
+.url-box{background:#1e40af;color:#fff;border-radius:10px;padding:14px 16px;margin-bottom:14px;text-align:center}
+.url-box .label{font-size:11px;opacity:.75;margin-bottom:6px}
+.url-box .url{font-size:14px;font-weight:800;word-break:break-all;background:rgba(255,255,255,.15);padding:8px 12px;border-radius:8px;margin-bottom:8px}
+.url-box .note{font-size:11px;opacity:.7}
+.qr-area{background:#fff;border-radius:10px;padding:16px;text-align:center;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.qr-area canvas{border-radius:8px}
+.input-url{width:100%;padding:10px 12px;border:2px solid #e2e2e0;border-radius:8px;font-size:13px;margin-bottom:8px;font-family:inherit}
+.input-url:focus{outline:none;border-color:#1d4ed8}
+.btn-gen{width:100%;padding:11px;background:#1d4ed8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.feat{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.feat-icon{font-size:24px;margin-bottom:6px}
+.feat-text{font-size:11px;font-weight:600;color:#555550}
+.note-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;font-size:12px;color:#92400e;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="app-icon">📋</div>
+  <h1>PANASIA CMS</h1>
+  <p>시운전 통합 관리시스템 — 스마트폰·태블릿 앱 설치</p>
+</div>
+
+<div class="container">
+
+  <!-- URL 입력 + QR 생성 -->
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num">①</div>
+      <div>
+        <div class="step-title">배포 URL 입력 → QR 생성</div>
+        <div class="step-sub">GitHub Pages 등에 올린 후 URL을 입력하세요</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <input class="input-url" id="url-input" type="url"
+        placeholder="https://[계정].github.io/panasia-cms"
+        value="">
+      <button class="btn-gen" onclick="generateQR()">📱 QR코드 생성</button>
+      <div class="qr-area" id="qr-area" style="display:none">
+        <canvas id="qr-canvas"></canvas>
+        <div style="font-size:12px;color:#6b6b63;margin-top:8px">스마트폰으로 스캔하세요</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 플랫폼 선택 -->
+  <div class="platform-tabs">
+    <div class="ptab active" id="tab-ios" onclick="switchPlatform('ios')">🍎 iPhone / iPad</div>
+    <div class="ptab" id="tab-and" onclick="switchPlatform('android')">🤖 Android</div>
+  </div>
+
+  <!-- iOS 설치 -->
+  <div class="step-card ios-steps show">
+    <div class="step-head">
+      <div class="step-num">②</div>
+      <div>
+        <div class="step-title">Safari에서 열기</div>
+        <div class="step-sub">반드시 Safari 브라우저를 사용하세요</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="item"><div class="item-icon">⚠️</div><div class="item-text">Chrome이나 다른 브라우저에서는 홈 화면 추가가 <b>불가능</b>합니다. Safari를 사용하세요.</div></div>
+      <div class="item"><div class="item-icon">🔗</div><div class="item-text">QR코드 스캔 또는 URL을 직접 입력하여 Safari로 접속합니다.</div></div>
+    </div>
+  </div>
+
+  <div class="step-card ios-steps show">
+    <div class="step-head">
+      <div class="step-num">③</div>
+      <div>
+        <div class="step-title">홈 화면에 추가</div>
+        <div class="step-sub">공유 버튼 → 홈 화면에 추가</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="item"><div class="item-icon">1️⃣</div><div class="item-text">Safari 하단 가운데 <b>공유 버튼 (□↑)</b>을 탭합니다</div></div>
+      <div class="item"><div class="item-icon">2️⃣</div><div class="item-text">스크롤을 내려 <b>"홈 화면에 추가"</b>를 탭합니다</div></div>
+      <div class="item"><div class="item-icon">3️⃣</div><div class="item-text">앱 이름 확인 후 오른쪽 상단 <b>"추가"</b>를 탭합니다</div></div>
+      <div class="item"><div class="item-icon">✅</div><div class="item-text">홈 화면에 <b>PANASIA CMS 아이콘</b>이 생성됩니다!</div></div>
+    </div>
+  </div>
+
+  <!-- Android 설치 -->
+  <div class="step-card android-steps">
+    <div class="step-head">
+      <div class="step-num">②</div>
+      <div>
+        <div class="step-title">Chrome에서 열기</div>
+        <div class="step-sub">Google Chrome 브라우저를 사용하세요</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="item"><div class="item-icon">🔗</div><div class="item-text">QR코드 스캔 또는 URL을 Chrome 주소창에 입력합니다.</div></div>
+      <div class="item"><div class="item-icon">💡</div><div class="item-text">페이지 하단에 <b>"앱 설치 배너"</b>가 자동으로 나타납니다.</div></div>
+    </div>
+  </div>
+
+  <div class="step-card android-steps">
+    <div class="step-head">
+      <div class="step-num">③</div>
+      <div>
+        <div class="step-title">앱 설치</div>
+        <div class="step-sub">메뉴 또는 배너에서 설치</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="item"><div class="item-icon">1️⃣</div><div class="item-text">하단의 <b>"설치"</b> 배너를 탭하거나</div></div>
+      <div class="item"><div class="item-icon">2️⃣</div><div class="item-text">우측 상단 <b>⋮ 메뉴 → "앱 설치"</b> 또는 <b>"홈 화면에 추가"</b>를 탭합니다</div></div>
+      <div class="item"><div class="item-icon">3️⃣</div><div class="item-text"><b>"설치"</b> 버튼을 눌러 완료합니다</div></div>
+      <div class="item"><div class="item-icon">✅</div><div class="item-text">홈 화면과 앱 서랍에 <b>PANASIA CMS 아이콘</b>이 생성됩니다!</div></div>
+    </div>
+  </div>
+
+  <!-- 앱 기능 -->
+  <div style="font-size:12px;font-weight:700;color:#9a9a94;text-transform:uppercase;letter-spacing:.08em;margin:20px 0 10px">설치 후 사용 가능한 기능</div>
+  <div class="feature-grid">
+    <div class="feat"><div class="feat-icon">📋</div><div class="feat-text">Daily Reports 작성</div></div>
+    <div class="feat"><div class="feat-icon">⚠️</div><div class="feat-text">Issue/TQ/Punch 관리</div></div>
+    <div class="feat"><div class="feat-icon">📷</div><div class="feat-text">현장 사진 촬영·저장</div></div>
+    <div class="feat"><div class="feat-icon">📊</div><div class="feat-text">M/D 실적 입력</div></div>
+    <div class="feat"><div class="feat-icon">✈️</div><div class="feat-text">출장결과보고서</div></div>
+    <div class="feat"><div class="feat-icon">📶</div><div class="feat-text">오프라인 동작</div></div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px">
+    <b>💡 GitHub Pages 무료 배포 방법</b><br>
+    1. github.com 가입 → New repository (panasia-cms, Public)<br>
+    2. index.html / sw.js / manifest.json 3개 파일 업로드<br>
+    3. Settings → Pages → Branch: main → Save<br>
+    4. <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px">https://[계정].github.io/panasia-cms</code> URL 생성!
+  </div>
+
+</div>
+
+<!-- QR 코드 라이브러리 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+function switchPlatform(p){
+  document.querySelectorAll('.ios-steps,.android-steps').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('.ptab').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.'+p+'-steps').forEach(el=>el.classList.add('show'));
+  document.getElementById('tab-'+( p==='ios'?'ios':'and')).classList.add('active');
+}
+
+function generateQR(){
+  const url = document.getElementById('url-input').value.trim();
+  if(!url){ alert('URL을 입력해주세요'); return; }
+
+  const area = document.getElementById('qr-area');
+  const canvas = document.getElementById('qr-canvas');
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  area.style.display = 'block';
+
+  try{
+    new QRCode(canvas, {
+      text: url,
+      width: 200,
+      height: 200,
+      colorDark: '#1e40af',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }catch(e){
+    // QRCode 라이브러리가 canvas 대신 div 생성하는 경우
+    const qDiv = document.createElement('div');
+    area.innerHTML = '';
+    area.appendChild(qDiv);
+    new QRCode(qDiv, {text:url,width:200,height:200,colorDark:'#1e40af',colorLight:'#ffffff'});
+    area.insertAdjacentHTML('beforeend','<div style="font-size:12px;color:#6b6b63;margin-top:8px">스마트폰으로 스캔하세요</div>');
+  }
+}
+
+// 자동 감지: 현재 도메인이 localhost/github.io면 자동 입력
+const cur = location.href;
+if(cur.includes('github.io') || cur.includes('netlify.app') || cur.includes('localhost')){
+  document.getElementById('url-input').value = cur;
+}
+</script>
+</body>
+</html>
