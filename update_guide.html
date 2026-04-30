@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PANASIA CMS — 업로드·업데이트 가이드북</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=JetBrains+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:#f0f2f5;color:#111;line-height:1.6;font-size:14px}
+
+/* ── 표지 ── */
+.cover{background:linear-gradient(145deg,#0f172a 0%,#1e3a8a 55%,#2563eb 100%);color:#fff;text-align:center;padding:52px 20px 44px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 30%,rgba(255,255,255,.06) 0%,transparent 55%)}
+.cover-icon{width:88px;height:88px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.2);border-radius:24px;font-size:44px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.cover h1{font-size:26px;font-weight:900;margin-bottom:8px;line-height:1.2}
+.cover h1 span{color:#93c5fd}
+.cover p{font-size:13px;opacity:.8;max-width:320px;margin:0 auto 28px;line-height:1.7}
+.cover-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ctag{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700}
+
+/* ── 래퍼 ── */
+.wrap{max-width:580px;margin:0 auto;padding:20px 15px 60px}
+
+/* ── 챕터 구분 ── */
+.chapter{background:linear-gradient(90deg,#1e3a8a,#2563eb);color:#fff;border-radius:12px;padding:16px 20px;margin:32px 0 16px;display:flex;align-items:center;gap:14px}
+.ch-num{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex-shrink:0}
+.ch-title{font-size:16px;font-weight:900}
+.ch-sub{font-size:11px;opacity:.8;margin-top:2px}
+
+.chapter.green{background:linear-gradient(90deg,#14532d,#16a34a)}
+.chapter.orange{background:linear-gradient(90deg,#7c2d12,#ea580c)}
+
+/* ── 스텝 ── */
+.step{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:12px;overflow:hidden}
+.step-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:2px solid #f1f5f9}
+.step-head.blue{border-bottom-color:#2563eb}
+.step-head.green{border-bottom-color:#16a34a}
+.step-head.orange{border-bottom-color:#ea580c}
+.step-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.si-blue{background:#dbeafe}
+.si-green{background:#dcfce7}
+.si-orange{background:#fed7aa}
+.step-label{font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.step-label.g{color:#16a34a}
+.step-label.o{color:#ea580c}
+.step-title{font-size:14px;font-weight:900;color:#0f172a}
+.step-sub{font-size:11px;color:#64748b;margin-top:2px}
+.step-body{padding:14px 16px}
+
+/* ── 행 ── */
+.row{display:flex;gap:11px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f1f5f9}
+.row:last-child{border-bottom:none}
+.rnum{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px}
+.rb{background:#2563eb}.rg{background:#16a34a}.ro{background:#ea580c}
+.rtxt{font-size:13px;color:#1e293b;flex:1;line-height:1.7}
+.rtxt b{font-weight:800;color:#0f172a}
+.code{font-family:'JetBrains Mono',monospace;background:#f1f5f9;color:#1d4ed8;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:600}
+.hl{background:#dbeafe;color:#1d4ed8;padding:1px 7px;border-radius:5px;font-weight:700;font-size:12px}
+.hlg{background:#dcfce7;color:#16a34a;padding:1px 7px;border-radius:5px;font-weight:700;font-size:12px}
+.hlo{background:#fed7aa;color:#ea580c;padding:1px 7px;border-radius:5px;font-weight:700;font-size:12px}
+
+/* ── GitHub 화면 목업 ── */
+.gh{background:#0d1117;border-radius:12px;overflow:hidden;margin:10px 0;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.gh-bar{background:#161b22;border-bottom:1px solid #21262d;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.gh-dot-r{width:11px;height:11px;border-radius:50%;background:#ff5f57;flex-shrink:0}
+.gh-dot-y{width:11px;height:11px;border-radius:50%;background:#febc2e;flex-shrink:0}
+.gh-dot-g{width:11px;height:11px;border-radius:50%;background:#28c840;flex-shrink:0}
+.gh-url{flex:1;background:#0d1117;border:1px solid #30363d;border-radius:5px;padding:4px 10px;font-size:10px;color:#8b949e;font-family:'JetBrains Mono',monospace;margin:0 4px}
+.gh-body{padding:16px;color:#e6edf3;font-size:13px}
+.gh-nav{display:flex;gap:0;border-bottom:1px solid #21262d;margin:-16px -16px 14px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+.gh-nav::-webkit-scrollbar{display:none}
+.gh-tab{padding:9px 12px;font-size:11px;color:#8b949e;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0}
+.gh-tab.active{color:#e6edf3;border-bottom-color:#f78166;font-weight:700}
+.gh-tab.settings{color:#58a6ff;border-bottom-color:#388bfd;font-weight:700}
+.gh-section{font-size:15px;font-weight:800;color:#e6edf3;margin-bottom:12px}
+.gh-sub{font-size:11px;color:#8b949e;margin-bottom:10px}
+
+/* 파일 드롭존 */
+.dropzone{border:2px dashed #30363d;border-radius:10px;padding:28px;text-align:center;background:rgba(255,255,255,.02);margin:8px 0}
+.dropzone.active{border-color:#388bfd;background:rgba(56,139,253,.05)}
+.dz-icon{font-size:32px;margin-bottom:8px;opacity:.5}
+.dz-text{font-size:13px;color:#e6edf3;margin-bottom:5px}
+.dz-sub{font-size:11px;color:#8b949e}
+.gh-link{color:#58a6ff;font-weight:700;text-decoration:underline}
+.gh-link.box{background:rgba(56,139,253,.15);border:1px solid rgba(56,139,253,.3);border-radius:5px;padding:1px 8px;text-decoration:none}
+
+/* 파일 목록 */
+.gh-files{background:#161b22;border:1px solid #21262d;border-radius:8px;overflow:hidden;margin:8px 0}
+.gh-file{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid #21262d;font-size:12px;color:#e6edf3}
+.gh-file:last-child{border-bottom:none}
+.gh-fname{font-family:'JetBrains Mono',monospace;font-weight:600;color:#79c0ff}
+.gh-fsize{font-size:10px;color:#484f58;margin-left:auto}
+.gh-check{color:#3fb950;font-size:13px;margin-left:6px}
+
+/* Commit 박스 */
+.gh-commit{background:#161b22;border:1px solid #21262d;border-radius:8px;overflow:hidden;margin:8px 0}
+.gh-commit-row{padding:9px 12px;border-bottom:1px solid #21262d}
+.gh-commit-row:last-child{border-bottom:none}
+.gh-commit-label{font-size:10px;color:#8b949e;margin-bottom:5px;font-weight:700;text-transform:uppercase}
+.gh-commit-input{background:#0d1117;border:1px solid #30363d;border-radius:5px;padding:6px 10px;font-size:12px;color:#e6edf3;width:100%}
+.gh-btn{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent}
+.gh-btn-green{background:#238636;color:#fff;border-color:rgba(240,246,252,.1);box-shadow:0 0 0 1px rgba(35,134,54,.4)}
+.gh-btn-gray{background:#21262d;color:#c9d1d9;border-color:#30363d}
+
+/* Settings 화면 */
+.gh-settings{display:flex;gap:0}
+.gh-sidebar{width:130px;border-right:1px solid #21262d;padding:10px 0;flex-shrink:0}
+.gh-smenu{padding:6px 12px;font-size:11px;color:#8b949e;border-left:2px solid transparent;cursor:pointer}
+.gh-smenu.active{color:#e6edf3;background:rgba(56,139,253,.1);border-left-color:#388bfd;font-weight:700}
+.gh-scontent{flex:1;padding:14px}
+.gh-select{background:#21262d;border:1px solid #30363d;border-radius:6px;padding:6px 10px;font-size:11px;color:#e6edf3;width:140px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+
+/* Pages 성공 */
+.pages-success{background:rgba(35,134,54,.1);border:1px solid rgba(35,134,54,.3);border-radius:10px;padding:14px;margin:8px 0}
+.pages-url{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#58a6ff;margin:8px 0;word-break:break-all}
+.pages-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(35,134,54,.2);border:1px solid rgba(35,134,54,.4);color:#3fb950;border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700}
+
+/* ── 폰 목업 ── */
+.phone-section{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin:10px 0}
+.phone{width:165px;background:#1c1c1e;border-radius:34px;padding:6px;box-shadow:0 16px 36px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,.06);flex-shrink:0}
+.pscreen{background:#fff;border-radius:28px;overflow:hidden;position:relative;min-height:320px}
+.pnotch{width:72px;height:20px;background:#1c1c1e;border-radius:0 0 14px 14px;margin:0 auto;position:relative;z-index:2}
+.pstatus{background:#fff;padding:3px 14px;display:flex;justify-content:space-between;font-size:8px;font-weight:700;color:#000}
+.pbody{background:#f2f2f7;flex:1;padding:6px;min-height:260px}
+
+/* 앱 화면 */
+.app-screen{background:#f0f4f8;min-height:260px}
+.app-top{background:#1d4ed8;padding:8px 10px;font-size:8px;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.app-content{padding:8px}
+.app-card{background:#fff;border-radius:8px;padding:7px 9px;margin-bottom:5px;border:1px solid #e2e8f0}
+.app-card-title{font-size:7px;font-weight:800;color:#0f172a;margin-bottom:2px}
+.app-card-num{font-size:14px;font-weight:900;color:#2563eb}
+.app-card-sub{font-size:6px;color:#64748b;margin-top:1px}
+.login-screen{background:#1e3a8a;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px}
+.login-box-small{background:#fff;border-radius:12px;padding:14px;width:100%}
+.login-logo-sm{width:36px;height:36px;background:linear-gradient(135deg,#1e3a8a,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px}
+.login-title-sm{font-size:9px;font-weight:900;text-align:center;margin-bottom:10px;color:#0f172a}
+.login-input-sm{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:5px 8px;font-size:8px;color:#64748b;margin-bottom:5px;width:100%}
+.login-btn-sm{background:#1d4ed8;color:#fff;border-radius:6px;padding:6px;font-size:8px;font-weight:800;text-align:center;margin-top:5px}
+
+/* iOS 공유시트 */
+.ios-sheet{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:14px 14px 0 0;overflow:hidden}
+.ios-sheet-handle{width:36px;height:4px;background:#d1d5db;border-radius:2px;margin:8px auto}
+.ios-sheet-title{font-size:8px;color:#6b7280;text-align:center;padding-bottom:6px;border-bottom:1px solid #f3f4f6}
+.ios-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:8px 4px}
+.ios-grid-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px}
+.ios-grid-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;margin-bottom:2px}
+.ios-grid-label{font-size:6px;color:#374151;text-align:center;font-weight:500}
+.ios-list{border-top:1px solid #f3f4f6}
+.ios-list-item{display:flex;align-items:center;gap:7px;padding:7px 12px;border-bottom:1px solid #f3f4f6;font-size:8px;font-weight:600;color:#374151}
+.ios-list-item.highlight{color:#007aff;font-weight:800;background:#f0f9ff}
+.ios-list-item-icon{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+
+/* Android 배너 */
+.android-banner{position:absolute;bottom:36px;left:4px;right:4px;background:#1e3a8a;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px}
+.android-app-icon{width:32px;height:32px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.android-banner-text{flex:1}
+.android-banner-title{font-size:8px;font-weight:800;color:#fff}
+.android-banner-sub{font-size:6px;color:rgba(255,255,255,.7);margin-top:1px}
+.android-install-btn{background:#fff;color:#1e3a8a;border-radius:6px;padding:4px 8px;font-size:8px;font-weight:800;white-space:nowrap}
+.android-navbar{height:28px;background:#000;display:flex;align-items:center;justify-content:center;gap:20px;font-size:14px;color:#fff;position:absolute;bottom:0;left:0;right:0}
+
+/* ── 경고·알림 ── */
+.alert{border-radius:10px;padding:12px 15px;margin:10px 0;display:flex;gap:10px;font-size:13px;line-height:1.7}
+.alert b{font-weight:800}
+.ab{background:#dbeafe;border:1px solid #bfdbfe;color:#1e40af}
+.ag{background:#dcfce7;border:1px solid #bbf7d0;color:#14532d}
+.ao{background:#fed7aa;border:1px solid #fdba74;color:#9a3412}
+.ar{background:#fee2e2;border:1px solid #fecaca;color:#991b1b}
+
+/* ── 체크리스트 ── */
+.checklist{margin:12px 0}
+.cl-item{display:flex;align-items:center;gap:10px;background:#fff;border-radius:10px;padding:10px 14px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.06);font-size:13px;font-weight:700}
+.cl-item.done{background:#dcfce7;border:1px solid #bbf7d0;color:#15803d}
+.cl-circle{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.cc-done{background:#16a34a;color:#fff}
+.cc-todo{background:#e2e8f0;color:#94a3b8}
+
+/* ── 완료 ── */
+.finish{background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);border-radius:16px;padding:28px 20px;text-align:center;margin:20px 0;color:#fff}
+.finish-emoji{font-size:52px;margin-bottom:12px}
+.finish h3{font-size:20px;font-weight:900;margin-bottom:6px}
+.finish p{font-size:13px;opacity:.8;margin-bottom:14px}
+.finish-url{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:12px;word-break:break-all}
+.finish-tag{background:rgba(255,255,255,.12);border-radius:8px;padding:4px 12px;font-size:11px;display:inline-block;margin:3px}
+
+.section-lbl{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin:24px 0 10px;display:flex;align-items:center;gap:8px}
+.section-lbl::after{content:'';flex:1;height:1px;background:#e2e8f0}
+.page-num{text-align:center;font-size:11px;color:#94a3b8;padding:12px 0}
+
+.tip{background:#f8fafc;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:10px 14px;margin:8px 0;font-size:12px;color:#334155;line-height:1.7}
+.tip b{font-weight:800;color:#1e293b}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ 표지 ═══════════════ -->
+<div class="cover">
+  <div class="cover-icon">📱</div>
+  <h1>GitHub 업로드 &<br><span>앱 업데이트 가이드북</span></h1>
+  <p>파일을 GitHub에 올리고<br>스마트폰 앱을 최신 버전으로 업데이트하는<br>전체 과정을 그림으로 설명합니다</p>
+  <div class="cover-tags">
+    <div class="ctag">✓ 처음 업로드</div>
+    <div class="ctag">✓ 파일 업데이트</div>
+    <div class="ctag">✓ 앱 새로고침</div>
+    <div class="ctag">✓ iPhone · Android</div>
+  </div>
+</div>
+
+<!-- ═══════════════ PART A: 처음 업로드 ═══════════════ -->
+<div class="wrap">
+
+<div class="chapter">
+  <div class="ch-num">A</div>
+  <div>
+    <div class="ch-title">처음 업로드 (최초 1회)</div>
+    <div class="ch-sub">GitHub 계정이 없을 때 — 파일을 처음 올리는 방법</div>
+  </div>
+</div>
+
+<!-- A-1 GitHub 접속 -->
+<div class="step">
+  <div class="step-head blue">
+    <div class="step-icon si-blue">🌐</div>
+    <div>
+      <div class="step-label">A-1</div>
+      <div class="step-title">github.com 접속 · 회원가입</div>
+      <div class="step-sub">PC 브라우저에서 진행하세요</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com</div>
+      </div>
+      <div class="gh-body" style="background:#0d1117">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:20px;color:#e6edf3;font-weight:900">GitHub</div>
+          <div style="display:flex;gap:8px">
+            <div style="border:1px solid #30363d;color:#c9d1d9;border-radius:6px;padding:5px 12px;font-size:12px">Sign in</div>
+            <div style="background:#238636;color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700">Sign up ←</div>
+          </div>
+        </div>
+        <div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px;text-align:center">
+          <div style="font-size:16px;font-weight:900;color:#e6edf3;margin-bottom:8px">Let's build from here</div>
+          <div style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:8px 12px;font-size:12px;color:#484f58;margin-bottom:8px;text-align:left">📧 이메일 주소 입력</div>
+          <div style="background:#238636;color:#fff;border-radius:6px;padding:8px;font-size:12px;font-weight:700">Sign up for GitHub</div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-card blue">
+      <div class="row"><div class="rnum rb">1</div><div class="rtxt"><b>Sign up</b> 클릭 → 이메일 입력</div></div>
+      <div class="row"><div class="rnum rb">2</div><div class="rtxt">비밀번호 설정 → 사용자 이름 입력<br><span style="font-size:11px;color:#64748b">예: panasia-daniel</span></div></div>
+      <div class="row"><div class="rnum rb">3</div><div class="rtxt">이메일로 온 인증 코드 입력 → 가입 완료</div></div>
+    </div>
+    <div class="alert ab"><span>💡</span><div>이미 계정이 있다면 <b>Sign in</b>으로 로그인 후 A-2로 이동</div></div>
+  </div>
+</div>
+
+<!-- A-2 New Repository -->
+<div class="step">
+  <div class="step-head blue">
+    <div class="step-icon si-blue">➕</div>
+    <div>
+      <div class="step-label">A-2</div>
+      <div class="step-title">새 저장소 만들기</div>
+      <div class="step-sub">+ 버튼 → New repository</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com</div>
+      </div>
+      <div class="gh-body">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+          <div style="position:relative">
+            <div style="background:#21262d;border:1px solid #30363d;border-radius:6px;padding:5px 10px;font-size:18px;font-weight:900;cursor:pointer;color:#e6edf3">+▾</div>
+            <div style="position:absolute;right:0;top:36px;width:190px;background:#161b22;border:1px solid #30363d;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:5">
+              <div style="padding:9px 14px;font-size:12px;font-weight:800;color:#58a6ff;background:rgba(56,139,253,.15);border-bottom:1px solid #21262d">⊞ New repository ← 클릭!</div>
+              <div style="padding:8px 14px;font-size:11px;color:#8b949e">New organization</div>
+              <div style="padding:8px 14px;font-size:11px;color:#8b949e">New project</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#8b949e;text-align:right">우측 상단 + 버튼 클릭</div>
+      </div>
+    </div>
+    <div class="guide-card blue">
+      <div class="row"><div class="rnum rb">1</div><div class="rtxt">로그인 후 우측 상단 <b>"+" 버튼</b> 클릭</div></div>
+      <div class="row"><div class="rnum rb">2</div><div class="rtxt"><b>"New repository"</b> 클릭</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- A-3 Repository 설정 -->
+<div class="step">
+  <div class="step-head blue">
+    <div class="step-icon si-blue">⚙️</div>
+    <div>
+      <div class="step-label">A-3</div>
+      <div class="step-title">이름 입력 · Public 선택 · 만들기</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com/new</div>
+      </div>
+      <div class="gh-body">
+        <div style="font-size:15px;font-weight:900;color:#e6edf3;margin-bottom:14px">Create a new repository</div>
+        <div style="font-size:10px;color:#8b949e;font-weight:700;text-transform:uppercase;margin-bottom:4px">Repository name *</div>
+        <div style="background:#0d1117;border:2px solid #388bfd;border-radius:6px;padding:7px 12px;font-size:13px;color:#e6edf3;margin-bottom:5px;font-family:'JetBrains Mono',monospace">panasia-cms</div>
+        <div style="font-size:11px;color:#3fb950;margin-bottom:14px">✅ panasia-cms is available.</div>
+        <div style="font-size:10px;color:#8b949e;font-weight:700;text-transform:uppercase;margin-bottom:8px">Visibility</div>
+        <div style="background:rgba(56,139,253,.1);border:1px solid #388bfd;border-radius:8px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;gap:10px;font-size:13px;color:#e6edf3;font-weight:700">
+          <div style="width:16px;height:16px;border-radius:50%;background:#388bfd;display:flex;align-items:center;justify-content:center"><div style="width:6px;height:6px;border-radius:50%;background:#fff"></div></div>
+          🌐 Public (필수 선택!)
+        </div>
+        <div style="border:1px solid #21262d;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:12px;color:#8b949e">
+          <div style="width:16px;height:16px;border-radius:50%;border:1px solid #484f58"></div>
+          🔒 Private
+        </div>
+        <div style="background:#238636;color:#fff;border-radius:6px;padding:10px;text-align:center;font-size:13px;font-weight:800;margin-top:14px">Create repository</div>
+      </div>
+    </div>
+    <div class="guide-card blue">
+      <div class="row"><div class="rnum rb">1</div><div class="rtxt">Repository name: <span class="code">panasia-cms</span> 입력</div></div>
+      <div class="row"><div class="rnum rb">2</div><div class="rtxt"><b>Public</b> 반드시 선택 ⚠️</div></div>
+      <div class="row"><div class="rnum rb">3</div><div class="rtxt"><b>"Create repository"</b> 초록 버튼 클릭</div></div>
+    </div>
+    <div class="alert ao"><span>⚠️</span><div><b>Public 필수!</b> Private 선택 시 무료 URL이 생성되지 않습니다.</div></div>
+  </div>
+</div>
+
+<!-- A-4 파일 업로드 -->
+<div class="step">
+  <div class="step-head blue">
+    <div class="step-icon si-blue">📁</div>
+    <div>
+      <div class="step-label">A-4</div>
+      <div class="step-title">파일 3개 업로드</div>
+      <div class="step-sub">index.html · sw.js · manifest.json</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com/[계정]/panasia-cms</div>
+      </div>
+      <div class="gh-body">
+        <div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px;text-align:center;margin-bottom:10px">
+          <div style="font-size:32px;margin-bottom:10px;opacity:.5">📭</div>
+          <div style="font-size:13px;color:#e6edf3;margin-bottom:6px">Quick setup</div>
+          <div style="font-size:12px;color:#8b949e;line-height:1.8">
+            Get started by creating a new file or<br>
+            <span style="color:#58a6ff;font-weight:800;background:rgba(56,139,253,.15);padding:1px 8px;border-radius:4px;cursor:pointer">uploading an existing file</span>
+            ← 이것 클릭!
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:20px;color:#2563eb;margin:4px 0">↓</div>
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com/[계정]/panasia-cms/upload</div>
+      </div>
+      <div class="gh-body">
+        <div class="dropzone active">
+          <div class="dz-icon">⬆️</div>
+          <div class="dz-text">파일 3개를 여기로 드래그!</div>
+          <div class="dz-sub">index.html · sw.js · manifest.json</div>
+        </div>
+        <div class="gh-files">
+          <div class="gh-file"><span>📄</span><span class="gh-fname">index.html</span><span class="gh-fsize">250KB</span><span class="gh-check">✓</span></div>
+          <div class="gh-file"><span>⚙️</span><span class="gh-fname">sw.js</span><span class="gh-fsize">1KB</span><span class="gh-check">✓</span></div>
+          <div class="gh-file"><span>📋</span><span class="gh-fname">manifest.json</span><span class="gh-fsize">5KB</span><span class="gh-check">✓</span></div>
+        </div>
+        <div class="gh-commit">
+          <div class="gh-commit-row">
+            <div class="gh-commit-label">Commit changes</div>
+            <div class="gh-commit-input">Add files via upload</div>
+          </div>
+          <div class="gh-commit-row">
+            <div class="gh-btn gh-btn-green">✅ Commit changes ← 클릭!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-card blue">
+      <div class="row"><div class="rnum rb">1</div><div class="rtxt"><span class="hl">uploading an existing file</span> 클릭</div></div>
+      <div class="row"><div class="rnum rb">2</div><div class="rtxt">파일 3개 선택 후 드래그 앤 드롭</div></div>
+      <div class="row"><div class="rnum rb">3</div><div class="rtxt">3개 파일이 목록에 표시되는지 확인</div></div>
+      <div class="row"><div class="rnum rb">4</div><div class="rtxt"><b>"Commit changes"</b> 초록 버튼 클릭</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- A-5 Pages 설정 -->
+<div class="step">
+  <div class="step-head green">
+    <div class="step-icon si-green">🌐</div>
+    <div>
+      <div class="step-label g">A-5</div>
+      <div class="step-title">Settings → Pages 설정</div>
+      <div class="step-sub">웹 주소(URL)를 활성화합니다</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com/[계정]/panasia-cms</div>
+      </div>
+      <div class="gh-body">
+        <div class="gh-nav">
+          <div class="gh-tab">Code</div>
+          <div class="gh-tab">Issues</div>
+          <div class="gh-tab">Pull requests</div>
+          <div class="gh-tab settings">⚙️ Settings ← 클릭!</div>
+        </div>
+        <div class="gh-settings">
+          <div class="gh-sidebar">
+            <div class="gh-smenu">General</div>
+            <div class="gh-smenu">Access</div>
+            <div class="gh-smenu">Branches</div>
+            <div class="gh-smenu active">📄 Pages ← 클릭!</div>
+            <div class="gh-smenu">Actions</div>
+          </div>
+          <div class="gh-scontent">
+            <div style="font-size:13px;font-weight:900;color:#e6edf3;margin-bottom:12px">GitHub Pages</div>
+            <div style="font-size:10px;color:#8b949e;font-weight:700;margin-bottom:5px">Source</div>
+            <div class="gh-select">Deploy from a branch <span>▾</span></div>
+            <div style="font-size:10px;color:#8b949e;font-weight:700;margin-bottom:5px">Branch</div>
+            <div style="display:flex;gap:6px;margin-bottom:10px">
+              <div class="gh-select" style="width:90px">main ▾</div>
+              <div class="gh-select" style="width:90px">/(root) ▾</div>
+            </div>
+            <div class="gh-btn gh-btn-green" style="font-size:11px">Save ← 클릭!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-card green">
+      <div class="row"><div class="rnum rg">1</div><div class="rtxt">상단 <b>Settings</b> 탭 클릭</div></div>
+      <div class="row"><div class="rnum rg">2</div><div class="rtxt">왼쪽 메뉴 <b>Pages</b> 클릭</div></div>
+      <div class="row"><div class="rnum rg">3</div><div class="rtxt">Source: <span class="hlg">Deploy from a branch</span></div></div>
+      <div class="row"><div class="rnum rg">4</div><div class="rtxt">Branch: <span class="hlg">main</span> / <span class="hlg">/(root)</span> 선택</div></div>
+      <div class="row"><div class="rnum rg">5</div><div class="rtxt"><b>Save</b> 클릭 → ⏰ 1~3분 기다리기</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- A-6 URL 확인 -->
+<div class="step">
+  <div class="step-head green">
+    <div class="step-icon si-green">✅</div>
+    <div>
+      <div class="step-label g">A-6</div>
+      <div class="step-title">URL 확인 · 복사</div>
+      <div class="step-sub">페이지 새로고침 후 초록 박스 확인</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="alert ab"><span>⏰</span><div>Save 클릭 후 <b>1~3분 기다렸다가</b> F5(새로고침) 하세요</div></div>
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com/[계정]/panasia-cms/settings/pages</div>
+      </div>
+      <div class="gh-body">
+        <div class="pages-success">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;color:#3fb950;font-weight:800;font-size:13px">🎉 Your site is live at</div>
+          <div class="pages-url">https://[계정명].github.io/panasia-cms</div>
+          <div class="pages-btn">🚀 Visit site — 클릭해서 확인!</div>
+        </div>
+      </div>
+    </div>
+    <div class="guide-card green">
+      <div class="row"><div class="rnum rg">1</div><div class="rtxt">초록 박스 URL을 <b>복사</b></div></div>
+      <div class="row"><div class="rnum rg">2</div><div class="rtxt"><b>Visit site</b> 클릭 → 앱이 열리는지 확인</div></div>
+      <div class="row"><div class="rnum rg">3</div><div class="rtxt">URL을 카카오톡으로 팀원에게 공유</div></div>
+    </div>
+    <div class="page-num">— A단계 완료 —</div>
+  </div>
+</div>
+
+<!-- ═══════════════ PART B: 업데이트 ═══════════════ -->
+<div class="chapter green">
+  <div class="ch-num">B</div>
+  <div>
+    <div class="ch-title">파일 업데이트 (버전 업그레이드)</div>
+    <div class="ch-sub">이미 올라가 있는 파일을 새 버전으로 교체하는 방법</div>
+  </div>
+</div>
+
+<!-- B-1 업로드 -->
+<div class="step">
+  <div class="step-head green">
+    <div class="step-icon si-green">🔄</div>
+    <div>
+      <div class="step-label g">B-1</div>
+      <div class="step-title">새 파일로 덮어쓰기</div>
+      <div class="step-sub">이전 파일 삭제 불필요 — 같은 이름으로 업로드하면 자동 교체</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="gh">
+      <div class="gh-bar">
+        <div class="gh-dot-r"></div><div class="gh-dot-y"></div><div class="gh-dot-g"></div>
+        <div class="gh-url">🔒 github.com/[계정]/panasia-cms</div>
+      </div>
+      <div class="gh-body">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:800;color:#e6edf3">📁 panasia-cms</div>
+          <div style="display:flex;gap:6px">
+            <div style="background:#238636;color:#fff;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700">Add file ▾</div>
+          </div>
+        </div>
+        <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;overflow:hidden;margin-bottom:8px">
+          <div style="padding:9px 12px;border-bottom:1px solid #21262d;font-size:11px;color:#8b949e;display:flex;align-items:center;gap:8px">
+            <span style="color:#e6edf3;font-weight:600">add file</span> 클릭 →
+            <span style="color:#3fb950;font-weight:700">Upload files ← 선택!</span>
+          </div>
+          <div class="gh-file"><span>📄</span><span class="gh-fname">index.html</span><span style="font-size:10px;color:#3fb950;margin-left:auto">업데이트됨</span></div>
+          <div class="gh-file"><span>⚙️</span><span class="gh-fname">sw.js</span><span style="font-size:10px;color:#3fb950;margin-left:auto">업데이트됨</span></div>
+          <div class="gh-file"><span>📋</span><span class="gh-fname">manifest.json</span><span class="gh-fsize">기존 유지</span></div>
+        </div>
+        <div class="gh-btn gh-btn-green" style="font-size:11px;margin-top:8px">✅ Commit changes</div>
+      </div>
+    </div>
+    <div class="guide-card green">
+      <div class="row"><div class="rnum rg">1</div><div class="rtxt">repository 페이지에서 <b>Add file → Upload files</b></div></div>
+      <div class="row"><div class="rnum rg">2</div><div class="rtxt">새 파일 드래그 — <b>같은 이름이면 자동 덮어쓰기</b></div></div>
+      <div class="row"><div class="rnum rg">3</div><div class="rtxt"><b>Commit changes</b> 클릭 → 완료!</div></div>
+    </div>
+    <div class="alert ag"><span>✅</span><div><b>이전 파일 삭제 불필요!</b> 같은 이름으로 올리면 자동으로 교체됩니다.</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PART C: 앱 새로고침 ═══════════════ -->
+<div class="chapter orange">
+  <div class="ch-num">C</div>
+  <div>
+    <div class="ch-title">스마트폰 앱 업데이트 반영</div>
+    <div class="ch-sub">GitHub 업로드 후 앱에서 새 버전을 적용하는 방법</div>
+  </div>
+</div>
+
+<!-- C-1 iPhone -->
+<div class="step">
+  <div class="step-head orange">
+    <div class="step-icon si-orange">🍎</div>
+    <div>
+      <div class="step-label o">C-1</div>
+      <div class="step-title">iPhone — 앱 업데이트 반영</div>
+      <div class="step-sub">홈 화면에 추가된 앱 기준</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="phone-section">
+      <!-- 폰 1: 앱 완전 종료 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div class="pnotch"></div>
+          <div class="pstatus"><span>9:41</span><span>●●● 📶 🔋</span></div>
+          <div style="background:#f2f2f7;min-height:280px;padding:10px">
+            <div style="font-size:9px;font-weight:800;color:#000;margin-bottom:10px;text-align:center">홈 화면</div>
+            <!-- 앱 아이콘들 -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:5px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(29,78,216,.4)">📋</div>
+                <div style="font-size:7px;color:#000;font-weight:600;text-align:center">PANASIA</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#25d366;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">💬</div><div style="font-size:7px;color:#000">메시지</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#007aff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">📷</div><div style="font-size:7px;color:#000">카메라</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#ff3b30;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">📧</div><div style="font-size:7px;color:#000">Mail</div></div>
+            </div>
+            <!-- 홈 바에서 위로 스와이프 안내 -->
+            <div style="position:absolute;bottom:30px;left:0;right:0;text-align:center">
+              <div style="font-size:8px;color:#ff3b30;font-weight:800;margin-bottom:4px">① PANASIA 앱을 길게 누름</div>
+              <div style="font-size:7px;color:#6b7280">② 팝업에서 X 탭 or 흔들어서 종료</div>
+            </div>
+          </div>
+          <div style="height:20px;background:#f2f2f7;display:flex;align-items:center;justify-content:center">
+            <div style="width:100px;height:4px;background:#000;border-radius:2px;opacity:.15"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 폰 2: 앱 멀티태스킹 종료 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div class="pnotch"></div>
+          <div class="pstatus"><span>9:41</span><span>●●● 📶 🔋</span></div>
+          <div style="background:#1c1c1e;min-height:280px;padding:10px;position:relative">
+            <div style="font-size:8px;font-weight:800;color:#fff;margin-bottom:10px;text-align:center">앱 전환 화면</div>
+            <!-- 앱 카드들 -->
+            <div style="display:flex;gap:8px;overflow-x:hidden;padding:5px">
+              <div style="min-width:100px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:12px;height:160px;position:relative;box-shadow:0 4px 16px rgba(0,0,0,.5)">
+                <div style="padding:8px;font-size:7px;font-weight:800;color:#fff">PANASIA CMS</div>
+                <div style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:#e0e0e0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000">×</div>
+                <div style="position:absolute;bottom:30px;left:0;right:0;text-align:center">
+                  <div style="font-size:8px;color:#fff;font-weight:800">② X 탭해서 종료!</div>
+                </div>
+              </div>
+              <div style="min-width:80px;background:#1c1c1e;border:1px solid #2c2c2e;border-radius:12px;height:160px;opacity:.5"></div>
+            </div>
+            <div style="position:absolute;bottom:30px;left:0;right:0;text-align:center">
+              <div style="font-size:8px;color:#ff9f0a;font-weight:800">↑ 홈 바를 위로 스와이프</div>
+              <div style="font-size:7px;color:#8e8e93">앱 전환 화면 열기</div>
+            </div>
+          </div>
+          <div style="height:20px;background:#1c1c1e;display:flex;align-items:center;justify-content:center">
+            <div style="width:100px;height:4px;background:#fff;border-radius:2px;opacity:.15"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 폰 3: Safari 강제 새로고침 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div class="pnotch"></div>
+          <div class="pstatus"><span>9:41</span><span>●●● 📶 🔋</span></div>
+          <div style="background:#fff;min-height:280px;display:flex;flex-direction:column">
+            <div style="background:#f2f2f7;padding:8px 10px;border-bottom:1px solid #e5e5ea;display:flex;align-items:center;gap:6px">
+              <span style="font-size:14px">◀</span>
+              <div style="flex:1;background:#fff;border-radius:8px;padding:4px 8px;font-size:8px;color:#007aff;font-family:'JetBrains Mono',monospace;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;border:1px solid #e5e5ea">https://[계정].github.io/panasia-cms</div>
+              <span style="font-size:14px;color:#007aff">⟳</span>
+            </div>
+            <div style="flex:1;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center">
+              <div style="text-align:center;color:#fff">
+                <div style="font-size:28px;margin-bottom:6px">📋</div>
+                <div style="font-size:9px;font-weight:800">PANASIA CMS</div>
+                <div style="font-size:7px;opacity:.7;margin-top:3px">업데이트 중...</div>
+              </div>
+            </div>
+            <div style="background:#f2f2f7;padding:6px 10px;text-align:center">
+              <div style="font-size:8px;color:#ff3b30;font-weight:800">③ URL바 아래로 당기기</div>
+              <div style="font-size:7px;color:#6b7280">강제 새로고침</div>
+            </div>
+            <div style="height:32px;background:#f2f2f7;border-top:1px solid #e5e5ea;display:flex;align-items:center;justify-content:space-around;padding:0 15px">
+              <span style="font-size:16px;color:#007aff">◀</span>
+              <span style="font-size:16px;color:#007aff">▶</span>
+              <span style="font-size:16px;color:#007aff">□↑</span>
+              <span style="font-size:16px;color:#007aff">⊟</span>
+              <span style="font-size:16px;color:#007aff">⊞</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-card" style="border-left:3px solid #ea580c">
+      <div class="row"><div class="rnum ro">1</div><div class="rtxt"><b>홈 화면에서 PANASIA 앱 아이콘 길게 누름</b> → X 탭 (앱 삭제 아님! 캐시 초기화용)</div></div>
+      <div class="row"><div class="rnum ro">2</div><div class="rtxt">또는 홈 바 <b>위로 스와이프</b> → 앱 전환 화면 → PANASIA 카드 위로 쓸기(삭제)</div></div>
+      <div class="row"><div class="rnum ro">3</div><div class="rtxt">다시 앱 아이콘 탭 → <b>URL 바를 아래로 당기기</b>(강제 새로고침)</div></div>
+      <div class="row"><div class="rnum ro">4</div><div class="rtxt">새 버전이 로드됩니다 ✅</div></div>
+    </div>
+    <div class="tip">💡 <b>더 확실한 방법:</b> Safari를 열고 URL(<span class="code">github.io/panasia-cms</span>)을 직접 입력 → 페이지 로드 → 공유 버튼(□↑) → <b>"홈 화면에 추가"</b> 로 재설치</div>
+  </div>
+</div>
+
+<!-- C-2 Android -->
+<div class="step">
+  <div class="step-head orange">
+    <div class="step-icon si-orange">🤖</div>
+    <div>
+      <div class="step-label o">C-2</div>
+      <div class="step-title">Android — 앱 업데이트 반영</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="phone-section">
+      <!-- 폰 1: 앱 완전 종료 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div style="background:#000;height:22px;display:flex;align-items:center;padding:0 10px">
+            <span style="font-size:8px;font-weight:700;color:#fff">9:41</span>
+            <span style="margin-left:auto;font-size:8px;color:#fff">📶 🔋</span>
+          </div>
+          <div style="background:#f0f0f0;min-height:246px;padding:10px;position:relative">
+            <div style="font-size:8px;font-weight:800;color:#000;text-align:center;margin-bottom:10px">홈 화면</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:5px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">📋</div>
+                <div style="font-size:7px;color:#000;font-weight:600">PANASIA</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#ea4335;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">📧</div><div style="font-size:7px;color:#000">Gmail</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#1877f2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">💬</div><div style="font-size:7px;color:#000">메신저</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#25d366;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px">💬</div><div style="font-size:7px;color:#000">카톡</div></div>
+            </div>
+            <div style="position:absolute;bottom:10px;left:0;right:0;text-align:center">
+              <div style="font-size:8px;color:#ea4335;font-weight:800">① □ 버튼 탭</div>
+              <div style="font-size:7px;color:#6b7280">(멀티태스킹 열기)</div>
+            </div>
+          </div>
+          <div class="android-navbar">◀ ● ■</div>
+        </div>
+      </div>
+
+      <!-- 폰 2: 앱 강제 종료 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div style="background:#000;height:22px;display:flex;align-items:center;padding:0 10px">
+            <span style="font-size:8px;font-weight:700;color:#fff">9:41</span>
+            <span style="margin-left:auto;font-size:8px;color:#fff">📶 🔋</span>
+          </div>
+          <div style="background:#1c1c1c;min-height:246px;padding:8px;position:relative">
+            <div style="font-size:8px;font-weight:800;color:#fff;text-align:center;margin-bottom:8px">멀티태스킹</div>
+            <div style="display:flex;justify-content:center;gap:8px">
+              <div style="width:100px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:12px;height:150px;position:relative">
+                <div style="padding:8px;font-size:7px;font-weight:800;color:#fff">PANASIA CMS</div>
+                <div style="position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:7px;color:#fff;font-weight:800">② 위로 쓸기</div>
+                <div style="position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:7px;color:rgba(255,255,255,.7)">(앱 종료)</div>
+              </div>
+            </div>
+          </div>
+          <div class="android-navbar">◀ ● ■</div>
+        </div>
+      </div>
+
+      <!-- 폰 3: Chrome 새로고침 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div style="background:#000;height:22px;display:flex;align-items:center;padding:0 10px">
+            <span style="font-size:8px;font-weight:700;color:#fff">9:41</span>
+            <span style="margin-left:auto;font-size:8px;color:#fff">📶 🔋</span>
+          </div>
+          <div style="background:#fff;min-height:246px;display:flex;flex-direction:column">
+            <div style="background:#f8f9fa;padding:6px 8px;display:flex;align-items:center;gap:5px;border-bottom:1px solid #e5e5e5">
+              <div style="flex:1;background:#fff;border:1px solid #e5e5e5;border-radius:20px;padding:4px 10px;font-size:8px;color:#1a73e8;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">[계정].github.io/panasia-cms</div>
+              <span style="font-size:12px;color:#5f6368">⋮</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1d4ed8,#3b82f6)">
+              <div style="text-align:center;color:#fff">
+                <div style="font-size:28px;margin-bottom:6px">📋</div>
+                <div style="font-size:9px;font-weight:800">PANASIA CMS</div>
+              </div>
+            </div>
+            <div style="background:#f8f9fa;padding:5px;text-align:center;border-top:1px solid #e5e5e5">
+              <div style="font-size:8px;color:#ea4335;font-weight:800">③ ⋮ 메뉴 → 새로고침</div>
+            </div>
+          </div>
+          <div class="android-navbar">◀ ● ■</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-card" style="border-left:3px solid #ea580c">
+      <div class="row"><div class="rnum ro">1</div><div class="rtxt">하단 <b>■ 버튼</b> 탭 (멀티태스킹 열기)</div></div>
+      <div class="row"><div class="rnum ro">2</div><div class="rtxt">PANASIA CMS 카드를 <b>위로 쓸기</b> (앱 종료)</div></div>
+      <div class="row"><div class="rnum ro">3</div><div class="rtxt">홈에서 앱 아이콘 탭 → Chrome에서 <b>⋮ → 새로고침</b></div></div>
+      <div class="row"><div class="rnum ro">4</div><div class="rtxt">새 버전 적용 완료 ✅</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PART D: 앱 설치 ═══════════════ -->
+<div class="chapter orange">
+  <div class="ch-num">D</div>
+  <div>
+    <div class="ch-title">처음 앱 설치 (홈 화면 추가)</div>
+    <div class="ch-sub">URL을 받은 후 스마트폰에 앱을 설치하는 방법</div>
+  </div>
+</div>
+
+<!-- D-1 iPhone 설치 -->
+<div class="step">
+  <div class="step-head orange">
+    <div class="step-icon si-orange">🍎</div>
+    <div>
+      <div class="step-label o">D-1</div>
+      <div class="step-title">iPhone — 홈 화면에 추가</div>
+      <div class="step-sub">Safari 브라우저 필수!</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="alert" style="background:#fee2e2;border:1px solid #fecaca;color:#991b1b"><span>⚠️</span><div><b>Chrome 앱 사용 불가!</b> 반드시 Safari로 열어야 합니다.</div></div>
+    <div class="phone-section">
+      <!-- Safari 열기 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div class="pnotch"></div>
+          <div class="pstatus"><span>9:41</span><span>●●● 📶 🔋</span></div>
+          <div style="background:#fff;min-height:280px;display:flex;flex-direction:column">
+            <div style="background:#f2f2f7;padding:6px 10px;border-bottom:1px solid #e5e5ea">
+              <div style="background:#fff;border-radius:10px;padding:5px 10px;font-size:8px;color:#007aff;font-family:'JetBrains Mono',monospace;border:1px solid #e5e5ea;text-align:center">https://[계정].github.io/panasia-cms</div>
+            </div>
+            <div style="flex:1;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center">
+              <div style="text-align:center;color:#fff">
+                <div style="font-size:32px;margin-bottom:8px">📋</div>
+                <div style="font-size:10px;font-weight:900">PANASIA CMS</div>
+                <div style="font-size:8px;opacity:.7;margin-top:4px">시운전 관리시스템</div>
+              </div>
+            </div>
+            <div style="height:32px;background:#f2f2f7;border-top:1px solid #e5e5ea;display:flex;align-items:center;justify-content:space-around;padding:0 12px">
+              <span style="font-size:16px;color:#007aff">◀</span>
+              <span style="font-size:16px;color:#007aff">▶</span>
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <span style="font-size:14px;color:#007aff">□↑</span>
+                <span style="font-size:6px;color:#ff3b30;font-weight:800">← 탭!</span>
+              </div>
+              <span style="font-size:16px;color:#007aff">⊟</span>
+              <span style="font-size:16px;color:#007aff">⊞</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 공유 시트 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div class="pnotch"></div>
+          <div class="pstatus"><span>9:41</span><span>●●● 📶 🔋</span></div>
+          <div style="background:#fff;min-height:280px;position:relative;display:flex;flex-direction:column">
+            <div style="flex:1;background:linear-gradient(135deg,#1d4ed8,#3b82f6) center/cover;opacity:.3"></div>
+            <!-- 공유 시트 -->
+            <div style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:14px 14px 0 0">
+              <div style="width:36px;height:4px;background:#d1d5db;border-radius:2px;margin:8px auto"></div>
+              <div style="font-size:7px;color:#6b7280;text-align:center;padding-bottom:6px">PANASIA CMS 공유</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:5px;border-bottom:1px solid #f3f4f6">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px">
+                  <div style="width:24px;height:24px;background:#d1d5db;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px">📋</div>
+                  <div style="font-size:6px;color:#374151">복사</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px;background:rgba(0,122,255,.05);border-radius:8px">
+                  <div style="width:24px;height:24px;background:#007aff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px">🏠</div>
+                  <div style="font-size:6px;color:#007aff;font-weight:700">홈 화면에<br>추가← !</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px">
+                  <div style="width:24px;height:24px;background:#34c759;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px">🔖</div>
+                  <div style="font-size:6px;color:#374151">책갈피</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px">
+                  <div style="width:24px;height:24px;background:#ff9500;border-radius:7px;display:flex;align-items:center;justify-content:circle;font-size:11px">📤</div>
+                  <div style="font-size:6px;color:#374151">더 보기</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 홈 화면 추가 완료 -->
+      <div class="phone">
+        <div class="pscreen">
+          <div class="pnotch"></div>
+          <div class="pstatus"><span>9:41</span><span>●●● 📶 🔋</span></div>
+          <div style="background:#f2f2f7;min-height:280px;padding:10px">
+            <div style="font-size:9px;font-weight:800;color:#000;margin-bottom:10px;text-align:center">홈 화면 추가 완료!</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:5px">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 8px rgba(29,78,216,.4);border:2px solid #3b82f6">📋</div>
+                <div style="font-size:7px;color:#000;font-weight:700">PANASIA CMS</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#25d366;border-radius:10px;font-size:18px;display:flex;align-items:center;justify-content:center">💬</div><div style="font-size:7px">카톡</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#007aff;border-radius:10px;font-size:18px;display:flex;align-items:center;justify-content:center">📷</div><div style="font-size:7px">카메라</div></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;background:#ff3b30;border-radius:10px;font-size:18px;display:flex;align-items:center;justify-content:center">📧</div><div style="font-size:7px">Mail</div></div>
+            </div>
+            <div style="margin-top:16px;background:#fff;border-radius:12px;padding:10px;border:2px solid #3b82f6">
+              <div style="font-size:8px;font-weight:900;color:#1d4ed8;margin-bottom:4px">🎉 설치 완료!</div>
+              <div style="font-size:7px;color:#64748b">이 아이콘을 탭하면<br>앱처럼 전체 화면으로 실행됩니다</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-card" style="border-left:3px solid #ea580c">
+      <div class="row"><div class="rnum ro">1</div><div class="rtxt">Safari로 URL 접속</div></div>
+      <div class="row"><div class="rnum ro">2</div><div class="rtxt">하단 가운데 <b>공유 버튼(□↑)</b> 탭</div></div>
+      <div class="row"><div class="rnum ro">3</div><div class="rtxt"><b>"홈 화면에 추가"</b> 탭</div></div>
+      <div class="row"><div class="rnum ro">4</div><div class="rtxt">오른쪽 상단 <b>"추가"</b> 탭 → 완료! 🎉</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- D-2 Android 설치 -->
+<div class="step">
+  <div class="step-head orange">
+    <div class="step-icon si-orange">🤖</div>
+    <div>
+      <div class="step-label o">D-2</div>
+      <div class="step-title">Android — 앱 설치</div>
+      <div class="step-sub">Chrome 브라우저 사용</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <div class="phone-section">
+      <div class="phone">
+        <div class="pscreen">
+          <div style="background:#000;height:22px;display:flex;align-items:center;padding:0 10px"><span style="font-size:8px;font-weight:700;color:#fff">9:41</span><span style="margin-left:auto;font-size:8px;color:#fff">📶 🔋</span></div>
+          <div style="background:#fff;min-height:246px;display:flex;flex-direction:column">
+            <div style="background:#f8f9fa;padding:5px 8px;display:flex;align-items:center;gap:4px">
+              <div style="flex:1;background:#fff;border:1px solid #e5e5e5;border-radius:20px;padding:4px 10px;font-size:7px;color:#1a73e8;font-family:'JetBrains Mono',monospace;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">[계정].github.io/panasia-cms</div>
+              <span style="font-size:12px;color:#5f6368">⋮</span>
+            </div>
+            <div style="flex:1;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center;position:relative">
+              <div style="text-align:center;color:#fff">
+                <div style="font-size:28px;margin-bottom:6px">📋</div>
+                <div style="font-size:9px;font-weight:900">PANASIA CMS</div>
+              </div>
+              <!-- 설치 배너 -->
+              <div style="position:absolute;bottom:8px;left:6px;right:6px;background:#1e3a8a;border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:7px">
+                <div style="width:28px;height:28px;background:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📋</div>
+                <div style="flex:1">
+                  <div style="font-size:7px;font-weight:800;color:#fff">PANASIA CMS 설치</div>
+                  <div style="font-size:6px;color:rgba(255,255,255,.7)">홈 화면에 추가</div>
+                </div>
+                <div style="background:#fff;border-radius:5px;padding:4px 7px;font-size:7px;font-weight:800;color:#1e3a8a;white-space:nowrap">설치 ← 탭!</div>
+              </div>
+            </div>
+          </div>
+          <div style="height:28px;background:#000;display:flex;align-items:center;justify-content:center;gap:20px;font-size:14px;color:#fff">◀ ● ■</div>
+        </div>
+      </div>
+
+      <div style="flex:1;min-width:180px">
+        <div class="guide-card" style="border-left:3px solid #ea580c;margin-top:0">
+          <div class="row"><div class="rnum ro">1</div><div class="rtxt">Chrome으로 URL 접속</div></div>
+          <div class="row"><div class="rnum ro">2</div><div class="rtxt">하단에 <b>"설치"</b> 배너 자동 표시</div></div>
+          <div class="row"><div class="rnum ro">3</div><div class="rtxt"><b>"설치"</b> 탭 → 완료! 🎉</div></div>
+        </div>
+        <div class="tip">배너가 없으면 Chrome 우측 상단 <b>⋮ → "앱 설치"</b> 또는 <b>"홈 화면에 추가"</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ 최종 체크리스트 ═══════════════ -->
+<div class="section-lbl">최종 체크리스트</div>
+<div class="checklist">
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>GitHub 계정 생성</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>panasia-cms repository 생성 (Public)</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>파일 3개 업로드 (index.html, sw.js, manifest.json)</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>Commit changes 클릭</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>Settings → Pages → main → Save</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>URL 확인 (1~3분 대기)</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>스마트폰 홈 화면에 앱 추가</div>
+  <div class="cl-item done"><div class="cl-circle cc-done">✓</div>업데이트 시 앱 완전 종료 후 재실행</div>
+</div>
+
+<div class="finish">
+  <div class="finish-emoji">🎉</div>
+  <h3>설치 · 업데이트 완료!</h3>
+  <p>홈 화면 아이콘을 탭하면 PANASIA CMS가<br>앱처럼 전체 화면으로 실행됩니다</p>
+  <div class="finish-url">https://[계정명].github.io/panasia-cms</div>
+  <div>
+    <div class="finish-tag">✓ 완전 무료</div>
+    <div class="finish-tag">✓ 팀 공유 가능</div>
+    <div class="finish-tag">✓ 오프라인 동작</div>
+    <div class="finish-tag">✓ 자동 로그인 기억</div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:20px;font-size:11px;color:#94a3b8">
+  PANASIA 시운전지원팀 · 앱 업로드·업데이트 가이드북 · 2026
+</div>
+</div>
+</body>
+</html>
